@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+.venv/
+venv/
+env/
+
+.pytest_cache/
+.mypy_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime output
+logs/*
+reports/*
+!logs/.gitkeep
+!reports/.gitkeep
+
+# Local configuration
+config/local/
+*.local.json
+*.local.yaml
+*.local.yml
+
+# Credentials
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+
+secrets/
+credentials/
+
+# Build artifacts
+build/*
+!build/.gitkeep
+
+dist/
+*.egg-info/
+
+# Recovery environment images
+*.iso
+*.img
+*.wim
+*.vhd
+*.vhdx
+
+# Machine-specific reports
+system_profile.json
+SystemProfile.json

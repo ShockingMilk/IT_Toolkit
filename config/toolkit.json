@@ -1,0 +1,33 @@
+{
+    "toolkit": {
+        "name": "IT Toolkit",
+        "version": "0.1.0",
+        "environment": "air_gapped"
+    },
+    "requirements": {
+        "python": {
+            "minimum_version": "3.10"
+        },
+        "powershell": {
+            "minimum_version": "7.1",
+            "preferred_version": "7.4"
+        }
+    },
+    "detection": {
+        "detect_operating_system": true,
+        "detect_architecture": true,
+        "detect_python": true,
+        "detect_powershell": true,
+        "detect_shell": true
+    },
+    "reporting": {
+        "enabled": true,
+        "filename": "system_profile.json",
+        "include_timestamp": true
+    },
+    "behavior": {
+        "allow_legacy_mode": true,
+        "prefer_modern_powershell": true,
+        "allow_limited_mode": true
+    }
+}

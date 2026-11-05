@@ -1,0 +1,17 @@
+{
+    "profile": "default",
+    "description": "General purpose IT toolkit",
+    "enabled_modules": [
+        "inventory",
+        "network",
+        "storage",
+        "diagnostics",
+        "reporting"
+    ],
+    "disabled_modules": [],
+    "platforms": [
+        "windows",
+        "linux",
+        "macos"
+    ]
+}

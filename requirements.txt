@@ -1,0 +1,6 @@
+# Phase 1 uses Python standard library only.
+#
+# No external dependencies required.
+#
+# Future optional dependencies will be documented
+# and managed through the offline dependency system.
