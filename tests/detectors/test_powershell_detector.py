@@ -21,7 +21,7 @@ class TestPowerShellDetector(unittest.TestCase):
         )
         def test_detect_modern_powershell(
             self,
-            mock_inspect,
+            mock_inspection,
             mock_executables,
         ):
             mock_executables.return_value = ["/usr/bin/pwsh"]
