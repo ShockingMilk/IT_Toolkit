@@ -54,15 +54,15 @@ class CapabilityManager:
         capabilities.append(
             Capability(
                 name=CapabilityType.NETWORK,
-                available=True,
-                reason="Native network diagnostics are available for the detected OS.",
+                available=False,
+                reason="Network diagnostic modules are not implemented in this release.",
             )
         )
         capabilities.append(
             Capability(
                 name=CapabilityType.STORAGE,
-                available=True,
-                reason="Native storage inspection is available for the detected OS.",
+                available=False,
+                reason="Storage diagnostic modules are not implemented in this release.",
             )
         )
         capabilities.append(

@@ -16,4 +16,4 @@ development = []
 where = ["src"]
 
 [tool.setuptools.package-data]
-it_toolkit = ["**/*.json"]
+it_toolkit = ["config/*.json"]

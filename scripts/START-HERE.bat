@@ -18,10 +18,10 @@ set "PYTHON_CMD="
 where py >nul 2>&1
 
 if %ERRORLEVEL% EQU 0 (
-    py -3.10 -c "import sys; sys.exit(0 if sys.version_info >= (3,10) else 1)" >nul 2>&1
+    py -3 -c "import sys; sys.exit(0 if sys.version_info >= (3,10) else 1)" >nul 2>&1
 
     if not errorlevel 1 (
-        set "PYTHON_CMD=py -3.10"
+        set "PYTHON_CMD=py -3"
         goto :RUN
     )
 )
