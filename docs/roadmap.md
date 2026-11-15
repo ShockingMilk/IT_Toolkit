@@ -10,16 +10,23 @@
 - [x] System profile
 - [x] Capability manager
 - [x] JSON reporting
-- [ ] Cross-platform testing
-- [ ] Detection improvements
+- [x] Cross-platform testing
+- [x] Detection improvements
 
-## Phase 2 - Platform Menus
+## Phase 2 - Interactive Menu System
 
-- [ ] Main menu
-- [ ] Windows menu
-- [ ] Linux menu
-- [ ] macOS menu
-- [ ] Capability-based menu filtering
+- [x] Shared menu item model
+- [x] Shared menu display and input validation
+- [x] Main menu
+- [x] Menu navigation and exit handling
+- [x] Capability-based menu filtering
+- [x] Centralized OS menu routing
+- [x] Platform-specific menu extension points
+- [x] Application integration
+- [ ] Windows testing
+- [ ] Linux testing
+- [ ] macOS testing
+- [ ] Menu usability improvements
 
 ## Phase 3 - Core Tools
 
