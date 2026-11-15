@@ -9,6 +9,10 @@ from it_toolkit.enums.powershell import (
 from it_toolkit.enums.runtime import Runtime
 from it_toolkit.enums.capability import CapabilityType
 from it_toolkit.enums.toolkit_mode import ToolkitMode
+from it_toolkit.enums.dependency_type import DependencyType
+from it_toolkit.enums.diagnostic_status import DiagnosticStatus
+from it_toolkit.enums.module_safety import ModuleSafety
+
 
 __all__ = [
     "Architecture",
@@ -18,4 +22,7 @@ __all__ = [
     "Runtime",
     "CapabilityType",
     "ToolkitMode",
+    "DiagnosticStatus",
+    "ModuleSafety",
+    "DependencyType",
 ]
