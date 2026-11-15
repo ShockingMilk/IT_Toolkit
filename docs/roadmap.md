@@ -28,7 +28,16 @@
 - [ ] macOS testing
 - [ ] Menu usability improvements
 
-## Phase 3 - Core Tools
+## Phase 3 Module Framework
+
+- [ ] Identity
+- [ ] Requirements
+- [ ] Platform Support
+- [ ] Execution
+- [ ] Results
+- [ ] Error handling
+
+## Phase 4 - Core Tools
 
 - [ ] System inventory
 - [ ] Network diagnostics
@@ -36,7 +45,14 @@
 - [ ] Service diagnostics
 - [ ] User and group diagnostics
 
-## Phase 4 - Offline Dependencies
+## Phase 5 - Reportting
+
+- [ ] JSON
+- [ ] CSV
+- [ ] HTML
+- [ ] PDF
+
+## Phase 6 - Offline Dependencies and Portable Runtimes
 
 - [ ] Dependency manifest
 - [ ] Local Python package repository
@@ -44,14 +60,16 @@
 - [ ] Offline installers
 - [ ] Dependency verification
 
-## Phase 5 - Reporting
+## Phase 7 - Advanced IT Diagnostics
 
-- [ ] JSON
-- [ ] CSV
-- [ ] HTML
-- [ ] PDF
+- [ ] AD
+- [ ] Windows Events and Services
+- [ ] Linux systemd, journal logs, package manager
+- [ ] macOS launchd, disk system logs
+- [ ] Services
+- [ ] Security
 
-## Phase 6 - Recovery Environment
+## Phase 8 - Recovery Environment
 
 - [ ] Boot architecture
 - [ ] UEFI
