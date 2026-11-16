@@ -1,16 +1,33 @@
 from it_toolkit.enums import (
     CapabilityType,
+    OperatingSystem,
     PowerShellStatus,
 )
+
 from it_toolkit.models.capability import Capability
 from it_toolkit.models.system_profile import SystemProfile
 
+
 class CapabilityManager:
+
+    SUPPORTED_DIAGNOSTIC_SYSTEMS = {
+        OperatingSystem.WINDOWS,
+        OperatingSystem.LINUX,
+        OperatingSystem.MACOS,
+    }
+
     def evaluate(
         self,
         profile: SystemProfile,
     ) -> list[Capability]:
+
         capabilities = []
+
+        operating_system_supported = (
+            profile.operating_system.family
+            in self.SUPPORTED_DIAGNOSTIC_SYSTEMS
+        )
+
         capabilities.append(
             Capability(
                 name=CapabilityType.SYSTEM_INFORMATION,
@@ -18,6 +35,7 @@ class CapabilityManager:
                 reason="Operating system detection completed.",
             )
         )
+
         capabilities.append(
             Capability(
                 name=CapabilityType.PYTHON,
@@ -29,16 +47,19 @@ class CapabilityManager:
                 ),
             )
         )
+
         legacy_powershell = any(
             item.installed
             and item.status == PowerShellStatus.LEGACY
             for item in profile.powershell
         )
+
         modern_powershell = any(
             item.installed
             and item.status == PowerShellStatus.SUPPORTED
             for item in profile.powershell
         )
+
         capabilities.extend([
             Capability(
                 name=CapabilityType.POWERSHELL_LEGACY,
@@ -51,27 +72,37 @@ class CapabilityManager:
                 reason="Supported PowerShell installation detected.",
             ),
         ])
-        capabilities.append(
+
+        capabilities.extend([
             Capability(
                 name=CapabilityType.NETWORK,
-                available=False,
-                reason="Network diagnostic modules are not implemented in this release.",
-            )
-        )
-        capabilities.append(
+                available=operating_system_supported,
+                reason=(
+                    "Network diagnostic collectors are supported."
+                    if operating_system_supported
+                    else "Network diagnostics are unsupported on this operating system."
+                ),
+            ),
             Capability(
                 name=CapabilityType.STORAGE,
-                available=False,
-                reason="Storage diagnostic modules are not implemented in this release.",
-            )
-        )
+                available=operating_system_supported,
+                reason=(
+                    "Storage diagnostic collectors are supported."
+                    if operating_system_supported
+                    else "Storage diagnostics are unsupported on this operating system."
+                ),
+            ),
+        ])
+
         capabilities.append(
             Capability(
                 name=CapabilityType.REPORTING,
                 available=profile.python.meets_requirement,
-                reason="Python reporting engine available."
-                if profile.python.meets_requirement
-                else "Python reporting engine unavailable.",
+                reason=(
+                    "Python reporting engine available."
+                    if profile.python.meets_requirement
+                    else "Python reporting engine unavailable."
+                ),
             )
         )
 

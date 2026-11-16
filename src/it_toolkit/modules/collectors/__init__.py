@@ -1,0 +1,1 @@
+"""Shared platform-aware diagnostic collectors."""

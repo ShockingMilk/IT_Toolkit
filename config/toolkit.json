@@ -1,7 +1,7 @@
 {
     "toolkit": {
         "name": "IT Toolkit",
-        "version": "0.1.0",
+        "version": "0.4.0",
         "environment": "air_gapped"
     },
     "requirements": {
@@ -29,5 +29,14 @@
         "allow_legacy_mode": true,
         "prefer_modern_powershell": true,
         "allow_limited_mode": true
+    },
+    "network": {
+        "active_tests": {
+            "enabled": true,
+            "timeout_seconds": 3,
+            "test_gateways": false,
+            "dns_targets": [],
+            "tcp_targets": []
+        }
     }
 }
