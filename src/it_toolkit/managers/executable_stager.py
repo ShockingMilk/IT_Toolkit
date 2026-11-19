@@ -26,10 +26,12 @@ class ExecutableStager:
         self,
         repository_path: Path,
         staging_root: Path,
+        record_manager=None,
     ):
         self.repository_path = Path(repository_path).resolve()
         self.staging_root = Path(staging_root).resolve()
         self.dependency_manager = DependencyManager(self.repository_path)
+        self.record_manager = record_manager
 
     @staticmethod
     def _timestamp() -> str:
@@ -64,7 +66,7 @@ class ExecutableStager:
         destination_path: Path | None = None,
         issues: list[str] | None = None,
     ) -> InstallationResult:
-        return InstallationResult(
+        result = InstallationResult(
             package_id=package.package_id,
             package_name=package.name,
             version=package.version,
@@ -82,6 +84,11 @@ class ExecutableStager:
             message=message,
             issues=issues or [],
         )
+
+        if self.record_manager is not None:
+            self.record_manager.record(result)
+
+        return result
 
     def stage(
         self,

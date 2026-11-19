@@ -7,6 +7,7 @@ from pathlib import Path
 
 from it_toolkit.enums import InstallationStatus
 from it_toolkit.managers.executable_stager import ExecutableStager
+from it_toolkit.managers.installation_record_manager import InstallationRecordManager
 
 
 class ExecutableStagerTests(unittest.TestCase):
@@ -220,6 +221,31 @@ class ExecutableStagerTests(unittest.TestCase):
                 self.profile,
                 approved=True,
             )
+
+    def test_successful_staging_is_recorded(self):
+        record_manager = InstallationRecordManager(
+            self.root / "reports" / "installations.jsonl"
+        )
+
+        stager = ExecutableStager(
+            self.repository,
+            self.staging_root,
+            record_manager=record_manager,
+        )
+
+        result = stager.stage(
+            "sample-tool",
+            "1.0.0",
+            self.profile,
+            approved=True,
+        )
+
+        records = record_manager.get_records()
+
+        self.assertEqual(result.status, InstallationStatus.STAGED)
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0].package_id, "sample-tool")
+        self.assertEqual(records[0].status, InstallationStatus.STAGED)
 
 
 if __name__ == "__main__":

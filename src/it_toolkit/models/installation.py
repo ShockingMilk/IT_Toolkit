@@ -56,7 +56,7 @@ class InstallationResult:
 
 @dataclass
 class InstallationRecord:
-    """Audit record describing a completed installation operation."""
+    """Persistent audit record for an installation or staging operation."""
 
     package_id: str
     package_name: str
@@ -74,9 +74,7 @@ class InstallationRecord:
     message: str = ""
     issues: list[str] = field(default_factory=list)
 
-    record_id: str = field(
-        default_factory=lambda: uuid4().hex
-    )
+    record_id: str = field(default_factory=lambda: uuid4().hex)
 
     recorded_at: str = field(default_factory=_utc_timestamp)
 
@@ -98,6 +96,80 @@ class InstallationRecord:
             completed_at=result.completed_at,
             message=result.message,
             issues=list(result.issues),
+        )
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "InstallationRecord":
+        """Reconstruct an audit record from saved JSON data."""
+
+        if not isinstance(data, dict):
+            raise ValueError("Installation record must be an object.")
+
+        required = (
+            "record_id",
+            "recorded_at",
+            "package_id",
+            "package_name",
+            "version",
+            "dependency_type",
+            "status",
+            "source_path",
+            "destination_path",
+            "sha256",
+            "started_at",
+            "completed_at",
+            "message",
+            "issues",
+        )
+
+        missing = [key for key in required if key not in data]
+
+        if missing:
+            raise ValueError(
+                "Installation record is missing fields: "
+                + ", ".join(missing)
+            )
+
+        if not isinstance(data["issues"], list) or not all(isinstance(item, str) for item in data["issues"]):
+            raise ValueError("Installation record issues must be a list of strings.")
+
+        string_fields = (
+            "record_id",
+            "recorded_at",
+            "package_id",
+            "package_name",
+            "version",
+            "source_path",
+            "sha256",
+            "started_at",
+            "completed_at",
+            "message",
+        )
+
+        for key in string_fields:
+            if not isinstance(data[key], str):
+                raise ValueError(f"Installation record field {key!r} must be a string.")
+
+        destination = data["destination_path"]
+
+        if destination is not None and not isinstance(destination, str):
+            raise ValueError("Installation record destination_path must be a string or null.")
+
+        return cls(
+            record_id=data["record_id"],
+            recorded_at=data["recorded_at"],
+            package_id=data["package_id"],
+            package_name=data["package_name"],
+            version=data["version"],
+            dependency_type=DependencyType(data["dependency_type"]),
+            status=InstallationStatus(data["status"]),
+            source_path=data["source_path"],
+            destination_path=destination,
+            sha256=data["sha256"],
+            started_at=data["started_at"],
+            completed_at=data["completed_at"],
+            message=data["message"],
+            issues=list(data["issues"]),
         )
 
     def to_dict(self) -> dict:

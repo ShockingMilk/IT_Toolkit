@@ -30,8 +30,10 @@ class PythonPackageInstaller:
         repository_path: Path,
         installation_root: Path,
         timeout_seconds: int = 300,
+        record_manager=None,
     ):
         self.repository = DependencyManager(repository_path)
+        self.record_manager = record_manager
 
         self.installation_root = Path(
             installation_root
@@ -66,7 +68,7 @@ class PythonPackageInstaller:
         message,
         issues=None,
     ) -> InstallationResult:
-        return InstallationResult(
+        result = InstallationResult(
             package_id=package.package_id,
             package_name=package.name,
             version=package.version,
@@ -84,6 +86,11 @@ class PythonPackageInstaller:
             message=message,
             issues=issues or [],
         )
+
+        if self.record_manager is not None:
+            self.record_manager.record(result)
+
+        return result
 
     @staticmethod
     def _installation_environment() -> dict:

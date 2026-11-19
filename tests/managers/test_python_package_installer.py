@@ -14,6 +14,7 @@ from it_toolkit.enums import (
     InstallationStatus,
 )
 from it_toolkit.managers.python_package_installer import PythonPackageInstaller
+from it_toolkit.managers.installation_record_manager import InstallationRecordManager
 from it_toolkit.models.operating_system import OperatingSystemInfo
 from it_toolkit.models.python_info import PythonInfo
 from it_toolkit.models.system_profile import SystemProfile
@@ -363,6 +364,36 @@ class PythonPackageInstallerTests(unittest.TestCase):
                 self.installation_root,
                 timeout_seconds=0,
             )
+
+    @patch(
+        "it_toolkit.managers.python_package_installer.subprocess.run"
+    )
+    def test_successful_installation_is_recorded(self, mock_run):
+        mock_run.side_effect = self.successful_installation
+
+        record_manager = InstallationRecordManager(
+            self.root / "reports" / "installations.jsonl"
+        )
+
+        installer = PythonPackageInstaller(
+            repository_path=self.repository,
+            installation_root=self.installation_root,
+            record_manager=record_manager,
+        )
+
+        result = installer.install(
+            "example.package",
+            "1.0.0",
+            self.profile,
+            approved=True,
+        )
+
+        records = record_manager.get_records()
+
+        self.assertEqual(result.status, InstallationStatus.INSTALLED)
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0].package_id, "example.package")
+        self.assertEqual(records[0].status, InstallationStatus.INSTALLED)
 
 
 if __name__ == "__main__":
