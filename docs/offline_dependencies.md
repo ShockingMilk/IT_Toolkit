@@ -231,10 +231,28 @@ Run installation tests:
     python -m unittest tests.managers.test_python_package_installer -v
     python -m unittest tests.managers.test_executable_stager -v
 
-## Future Work
 
-Phase 6C will introduce portable runtime discovery, validation,
-and management.
+## Phase 6C — Portable Runtime Management
 
-The diagnostic core will remain independent of optional runtimes
-and graphical presentation components.
+Portable Runtime Management extends the offline dependency system
+to support locally stored Python and PowerShell runtime distributions.
+
+It is implemented as a separate runtime-management workflow.
+
+The phase includes:
+
+- Runtime catalog and manifest validation.
+- Runtime archive integrity verification.
+- Platform and architecture compatibility checks.
+- Safe archive staging.
+- Explicit runtime selection.
+- Runtime executable integrity verification.
+- Controlled runtime execution.
+- Runtime operation audit history.
+
+See [Portable Runtime Management](portable_runtimes.md) for the
+complete design, workflow, security considerations, and testing
+instructions.
+
+Portable runtime management does not replace the host runtime
+detection process or modify system-managed runtimes.

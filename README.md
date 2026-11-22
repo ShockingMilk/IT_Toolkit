@@ -114,12 +114,17 @@ These are runtime artifacts and are excluded from Git.
 
 ## Development Roadmap
 
-1. Detection engine
-2. Platform-specific menus
-3. Core IT diagnostic modules
-4. Offline dependency management
-5. Reporting
-6. Bootable recovery environment
+| Phase | Description | Status |
+| --- | --- | --- |
+| 1 | Foundation and platform detection | Complete |
+| 2 | Interactive menu system | Complete |
+| 3 | Diagnostic module framework | Complete |
+| 4 | Core diagnostics | Complete |
+| 5 | Reporting and presentation | Complete |
+| 6A | Offline package repository | Complete |
+| 6B | Dependency installation and verification | Complete |
+| 6C | Portable runtime management | Testing and documentation |
+| 7 | Future recovery environment integration | Planned |
 
 ## Design Philosophy
 

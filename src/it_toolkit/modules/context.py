@@ -34,6 +34,12 @@ class ModuleContext:
     toolkit_root: Path
     config: Mapping[str, Any] = field(default_factory=dict)
 
+    runtime_executor: Any | None = field(
+        default=None,
+        repr=False,
+        compare=False,
+    )
+
     execution_id: str = field(
         default_factory=lambda: str(uuid4())
     )

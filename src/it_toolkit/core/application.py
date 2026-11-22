@@ -1,18 +1,16 @@
 from pathlib import Path
 
 from it_toolkit.config.config_manager import ConfigManager
-
 from it_toolkit.managers.detection_manager import DetectionManager
 from it_toolkit.managers.capability_manager import CapabilityManager
 from it_toolkit.managers.report_manager import ReportManager
-
+from it_toolkit.managers.runtime_execution_manager import RuntimeExecutionManager
+from it_toolkit.managers.runtime_record_manager import RuntimeRecordManager
 from it_toolkit.menus.menu_manager import MenuManager
-
+from it_toolkit.modules.builtin import register_builtin_modules
 from it_toolkit.modules.context import ModuleContext
 from it_toolkit.modules.registry import ModuleRegistry
 from it_toolkit.modules.runner import ModuleRunner
-
-from it_toolkit.modules.builtin import register_builtin_modules
 
 
 class Application:
@@ -21,28 +19,38 @@ class Application:
 
         self.root = Path(__file__).resolve().parents[3]
 
-        self.config = ConfigManager(
-            self.root / "config/toolkit.json"
+        self.config = ConfigManager(self.root / "config/toolkit.json")
+
+        # Portable runtime services
+        staging_path = Path(
+            self.config.get(
+                "runtime.staging_path",
+                "dependencies/staged/runtimes",
+            )
         )
 
-        self.detection_manager = DetectionManager(
-            self.config
+        if not staging_path.is_absolute():
+            staging_path = self.root / staging_path
+
+        runtime_record_manager = RuntimeRecordManager(self.root / "reports/runtime_history.jsonl")
+
+        self.runtime_executor = RuntimeExecutionManager(
+            staging_root=staging_path,
+            record_manager=runtime_record_manager,
         )
+
+        self.detection_manager = DetectionManager(self.config)
 
         self.capability_manager = CapabilityManager()
 
-        self.report_manager = ReportManager(
-            self.root / "reports"
-        )
+        self.report_manager = ReportManager(self.root / "reports")
 
         self.menu_manager = MenuManager()
 
         # Diagnostic framework
         self.module_registry = ModuleRegistry()
 
-        register_builtin_modules(
-            self.module_registry
-        )
+        register_builtin_modules(self.module_registry)
 
         self.module_runner = ModuleRunner(
             registry=self.module_registry,
@@ -88,6 +96,7 @@ class Application:
             profile=profile,
             toolkit_root=self.root,
             config=self.config.config,
+            runtime_executor=self.runtime_executor,
         )
 
         # Step 5: Display startup summary
