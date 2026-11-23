@@ -23,17 +23,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
   tests:
     name: Tests (${{ matrix.os }}, Python ${{ matrix.python-version }})
-
     runs-on: ${{ matrix.os }}
-
     timeout-minutes: 15
+
+    env:
+      PYTHONPATH: src
 
     strategy:
       fail-fast: false
-
       matrix:
         os:
           - ubuntu-latest
@@ -46,7 +45,6 @@ jobs:
           - "3.14"
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -65,16 +63,15 @@ jobs:
 
   ci-status:
     name: CI status
-
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     needs:
       - tests
 
-    if: always()
+    if: ${{ !cancelled() }}
 
     steps:
-
       - name: Verify test matrix
         if: needs.tests.result != 'success'
         run: |
