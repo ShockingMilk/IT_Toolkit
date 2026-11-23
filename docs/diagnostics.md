@@ -11,6 +11,25 @@ Each diagnostic module:
 - Returns a DiagnosticResult.
 - Defaults to read-only behavior.
 
+## Privacy and Diagnostic Data
+
+Diagnostic reports may contain information that identifies a user, computer, organization, or internal network.
+
+Depending on the modules executed, reports may include:
+
+- Computer hostnames and usernames
+- Operating system and hardware information
+- Local filesystem paths
+- Network interface addresses
+- DNS servers, gateways, and routing information
+- Diagnostic errors and command output
+
+Reports are intended for local troubleshooting and authorized IT review.
+
+**Before sharing a report outside your organization, review it and remove any identifying or sensitive information.**
+
+The IT Toolkit does not intentionally publish diagnostic reports. Users are responsible for reviewing exported information before distributing it.
+
 ## System Information
 
 ### System Overview
