@@ -33,6 +33,7 @@ config/local/
 # Credentials
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 *.pfx
